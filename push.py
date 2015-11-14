@@ -1,18 +1,18 @@
 import json
+import sys
 from pymongo import MongoClient, errors
 
-
 def client_connection():
-    client = MongoClient("127.0.0.1", 27017)
+    client = MongoClient("127.0.1.1", 27017)
     database = client.database
     return database
 
 
-def json_push():
+def parse(filename):
     db = client_connection()
     collection = db.collection
     data = {}
-    with open('data.json', 'r') as f:   #opens our json file as f parameter
+    with open(str(filename[1]), 'r') as f:      #opens our json file as f parameter
         data = json.load(f)             #loads f to data
         #for row in data:                #prints out entries in data object
             #print(row)
@@ -21,6 +21,5 @@ def json_push():
     for entry in collection.find():
         print(entry)
 
-
-
-json_push()
+if __name__ == '__main__':
+    parse(sys.argv)
